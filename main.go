@@ -121,6 +121,21 @@ func printDuplicateColumns(dupColumnsMap map[string][]ColumnDuplicate) {
 	}
 }
 
+func printColumnTypes(columns map[string]ColumnInfo) {
+	types := make(map[string]struct{})
+	for _, col := range columns {
+		types[col.Column.Type] = struct{}{}
+	}
+
+	sorted := make([]string, 0, len(types))
+	for k := range types {
+		sorted = append(sorted, k)
+	}
+
+	sort.Strings(sorted)
+	fmt.Println(sorted)
+}
+
 func execFieldsCommand() error {
 	tables, err := loadSchema(schemaFileName)
 	if err != nil {
@@ -155,9 +170,9 @@ func execFieldsCommand() error {
 		}
 	}
 
+	// printColumnTypes(columns)
+	// return nil
 	// printDuplicateColumns(dupColumnsMap)
-
-	// fmt.Printf("Total: %d\n", total)
-
+	// return nil
 	return generateFields(os.Stdout, columns, dupColumnsMap)
 }

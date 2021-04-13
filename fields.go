@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"sort"
 
 	"gopkg.in/yaml.v2"
 )
@@ -16,17 +17,23 @@ type Node struct {
 }
 
 type Field struct {
-	Name        string     `yaml:"name,omitempty"`
-	Description string     `yaml:"description,omitempty"`
-	Type        string     `yaml:"type,omitempty"`
-	IgnoreAbove int        `yaml:"ignore_above,omitempty"`
-	Multifields []MulField `yaml:"multi_fields,omitempty"`
+	Name        string        `yaml:"name,omitempty"`
+	Description string        `yaml:"description,omitempty"`
+	Type        string        `yaml:"type,omitempty"`
+	IgnoreAbove int           `yaml:"ignore_above,omitempty"`
+	Multifields []interface{} `yaml:"multi_fields,omitempty"`
 }
 
 type MulField struct {
 	Name         string `yaml:"name,omitempty"`
 	Type         string `yaml:"type,omitempty"`
 	Norms        bool   `yaml:"norms"`
+	DefaultValue bool   `yaml:"default_field"`
+}
+
+type NumMulField struct {
+	Name         string `yaml:"name,omitempty"`
+	Type         string `yaml:"type,omitempty"`
 	DefaultValue bool   `yaml:"default_field"`
 }
 
@@ -52,9 +59,18 @@ func generateFields(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 	conf := confs[0]
 
 	if len(columns) > 0 {
+
 		fields := make([]interface{}, 0, len(columns))
 
-		for colName, colInfo := range columns {
+		sorted := make([]string, 0, len(fields))
+		for k := range columns {
+			sorted = append(sorted, k)
+		}
+
+		sort.Strings(sorted)
+
+		for _, colName := range sorted {
+			colInfo := columns[colName]
 			field := Field{
 				Name:        colName,
 				Description: colInfo.Column.Description,
@@ -62,11 +78,21 @@ func generateFields(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 				IgnoreAbove: 1024,
 			}
 			if colInfo.Column.Type == "text" {
-				field.Multifields = []MulField{
-					{
+				field.Multifields = []interface{}{
+					MulField{
 						Name: "text",
 						Type: "text",
 					},
+				}
+			} else {
+				// add the actual type multifield if it's not a duplicate field with different types
+				if _, ok := dupColumnsMap[colName]; !ok {
+					field.Multifields = []interface{}{
+						NumMulField{
+							Name: "number",
+							Type: colInfo.Column.Type,
+						},
+					}
 				}
 			}
 			fields = append(fields, field)
