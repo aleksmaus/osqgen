@@ -5,8 +5,10 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"sort"
+	"strings"
 )
 
 type Column struct {
@@ -34,6 +36,7 @@ type ColumnDuplicate struct {
 
 const (
 	cmdFields = "fields"
+	cmdReadme = "readme"
 )
 
 var (
@@ -71,6 +74,8 @@ func main() {
 	switch command {
 	case cmdFields:
 		err = execFieldsCommand()
+	case cmdReadme:
+		err = execReadmeCommand()
 	default:
 		err = errUnsupportedCommand
 	}
@@ -136,23 +141,27 @@ func printColumnTypes(columns map[string]ColumnInfo) {
 	fmt.Println(sorted)
 }
 
-func execFieldsCommand() error {
+func execPreprocess() (columns map[string]ColumnInfo, dupColumnsMap map[string][]ColumnDuplicate, err error) {
 	tables, err := loadSchema(schemaFileName)
 	if err != nil {
-		return err
+		return
 	}
 
-	columns := make(map[string]ColumnInfo)
+	columns = make(map[string]ColumnInfo)
 
-	dupColumnsMap := make(map[string][]ColumnDuplicate)
+	dupColumnsMap = make(map[string][]ColumnDuplicate)
 
 	total := 0
 	for _, table := range tables {
 		for _, column := range table.Columns {
 			total += 1
 			column.Type = convergeToESType(column.Type)
+			column.Description = table.Name + `.` + column.Name + ` - ` + column.Description
 			colInfo, ok := columns[column.Name]
 			if ok {
+				colInfo.Column.Description += "\n" + column.Description
+				columns[column.Name] = colInfo
+
 				if colInfo.Column.Type != column.Type {
 					dupColumns, found := dupColumnsMap[column.Name]
 					if !found {
@@ -169,10 +178,60 @@ func execFieldsCommand() error {
 			}
 		}
 	}
+	return
+}
 
-	// printColumnTypes(columns)
-	// return nil
-	// printDuplicateColumns(dupColumnsMap)
-	// return nil
+func execFieldsCommand() error {
+	columns, dupColumnsMap, err := execPreprocess()
+	if err != nil {
+		return err
+	}
 	return generateFields(os.Stdout, columns, dupColumnsMap)
+}
+
+func execReadmeCommand() error {
+	columns, dupColumnsMap, err := execPreprocess()
+	if err != nil {
+		return err
+	}
+	return generateReadme(os.Stdout, columns, dupColumnsMap)
+}
+
+func generateReadme(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap map[string][]ColumnDuplicate) error {
+
+	var b strings.Builder
+
+	if len(columns) > 0 {
+
+		fields := make([]interface{}, 0, len(columns))
+
+		sorted := make([]string, 0, len(fields))
+		for k := range columns {
+			sorted = append(sorted, k)
+		}
+
+		sort.Strings(sorted)
+
+		for _, colName := range sorted {
+			colInfo := columns[colName]
+			types := []string{"keyword"}
+			if colInfo.Column.Type == "text" {
+				types = append(types, "text.text")
+			} else {
+				if _, ok := dupColumnsMap[colName]; !ok {
+					types = append(types, "number."+colInfo.Column.Type)
+				}
+			}
+
+			b.WriteString(`| `)
+			b.WriteString(colName)
+			b.WriteString(` | `)
+			b.WriteString(strings.Replace(colInfo.Column.Description, "\n", "<br/>", -1))
+			b.WriteString(` | `)
+			b.WriteString(strings.Join(types, ", "))
+			b.WriteString(" |\n")
+		}
+	}
+	fmt.Fprintln(w, b.String())
+	return nil
 }

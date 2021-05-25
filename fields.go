@@ -109,18 +109,6 @@ func generateFields(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 		return err
 	}
 
-	fmt.Println(string(b))
-
+	fmt.Fprintln(w, string(b))
 	return nil
 }
-
-// - name: name
-// level: extended
-// type: keyword
-// ignore_above: 1024
-// multi_fields:
-//   - name: text
-// 	type: text
-// 	norms: false
-// 	default_field: false
-// description: 'Process name.
