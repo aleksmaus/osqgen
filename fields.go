@@ -103,6 +103,7 @@ func generateFields(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 
 	confs[0] = conf
 
+	yaml.FutureLineWrap()
 	b, err := yaml.Marshal(confs)
 
 	if err != nil {

@@ -52,6 +52,15 @@ func exitOnError(err error) {
 	}
 }
 
+type ReaderCounter struct {
+	io.ReadCloser
+	count uint64
+}
+
+func Close(rc io.ReadCloser) {
+
+}
+
 func main() {
 	var err error
 
@@ -223,13 +232,31 @@ func generateReadme(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 				}
 			}
 
-			b.WriteString(`| `)
-			b.WriteString(colName)
-			b.WriteString(` | `)
-			b.WriteString(strings.Replace(colInfo.Column.Description, "\n", "<br/>", -1))
-			b.WriteString(` | `)
-			b.WriteString(strings.Join(types, ", "))
-			b.WriteString(" |\n")
+			descriptions := strings.Split(colInfo.Column.Description, "\n")
+			for i, description := range descriptions {
+				b.WriteString(`| `)
+				if i == 0 {
+					b.WriteString(`**`)
+					b.WriteString(colName)
+					b.WriteString(`**`)
+				}
+				b.WriteString(` | `)
+				pos := strings.Index(description, " - ")
+				if pos != -1 {
+					b.WriteString(`**`)
+					b.WriteString(description[:pos])
+					b.WriteString(`** - `)
+					b.WriteString(description[pos+len(" - "):])
+				} else {
+					b.WriteString(description)
+				}
+				b.WriteString(` | `)
+				if i == 0 {
+					b.WriteString(strings.Join(types, ", "))
+				}
+				b.WriteString(" |\n")
+
+			}
 		}
 	}
 	fmt.Fprintln(w, b.String())
