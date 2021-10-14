@@ -2,4 +2,5 @@
 .DS_Store
 
 osquery.yml
+ecs.yml
 osqgen

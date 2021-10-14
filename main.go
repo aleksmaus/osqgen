@@ -9,6 +9,8 @@ import (
 	"os"
 	"sort"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 type Column struct {
@@ -37,6 +39,7 @@ type ColumnDuplicate struct {
 const (
 	cmdFields = "fields"
 	cmdReadme = "readme"
+	cmdECS    = "ecs"
 )
 
 var (
@@ -85,6 +88,8 @@ func main() {
 		err = execFieldsCommand()
 	case cmdReadme:
 		err = execReadmeCommand()
+	case cmdECS:
+		err = execECSCommand()
 	default:
 		err = errUnsupportedCommand
 	}
@@ -261,4 +266,51 @@ func generateReadme(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 	}
 	fmt.Fprintln(w, b.String())
 	return nil
+}
+
+func execECSCommand() error {
+	f, err := os.Open(schemaFileName)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	d := yaml.NewDecoder(f)
+	var root interface{}
+	err = d.Decode(&root)
+	if err != nil {
+		return err
+	}
+
+	root = filter(root)
+
+	b, err := yaml.Marshal(root)
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(b))
+	return nil
+}
+
+func filter(root interface{}) interface{} {
+	nodes := root.([]interface{})
+
+	var newNodes []interface{}
+	for _, node := range nodes {
+		m := node.(map[interface{}]interface{})
+		childFields, ok := m["fields"]
+		if ok {
+			childFields = filter(childFields)
+			if arr := childFields.([]interface{}); len(arr) == 0 {
+				delete(m, "fields")
+			} else {
+				m["fields"] = childFields
+			}
+			newNodes = append(newNodes, node)
+		} else if m["type"].(string) == "date" || m["type"].(string) == "ip" {
+			newNodes = append(newNodes, node)
+		}
+	}
+	return newNodes
 }
