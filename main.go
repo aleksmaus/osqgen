@@ -293,7 +293,7 @@ func execECSCommand() error {
 		fmt.Println(`# osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml`)
 		for _, ecsField := range ecsFields {
 			fmt.Println("- external: ecs")
-			fmt.Println("  name: ", ecsField)
+			fmt.Println("  name:", ecsField)
 		}
 	}
 
