@@ -283,25 +283,38 @@ func execECSCommand() error {
 		return err
 	}
 
-	root = filter(root)
+	var ecsFields []string
 
-	b, err := yaml.Marshal(root)
-	if err != nil {
-		return err
+	root = filter(root, "", &ecsFields)
+
+	if len(ecsFields) > 0 {
+		fmt.Println(`# This file is generated with osqgen (https://github.com/aleksmaus/osqgen) tool from the official ECS fields yml`)
+		fmt.Println(`# To regenerate use:`)
+		fmt.Println(`# osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml`)
+		for _, ecsField := range ecsFields {
+			fmt.Println("- external: ecs")
+			fmt.Println("  name: ", ecsField)
+		}
 	}
-	fmt.Println(string(b))
+
 	return nil
 }
 
-func filter(root interface{}) interface{} {
+func filter(root interface{}, parent string, ecsFields *[]string) interface{} {
 	nodes := root.([]interface{})
 
 	var newNodes []interface{}
 	for _, node := range nodes {
 		m := node.(map[interface{}]interface{})
+
 		childFields, ok := m["fields"]
+		var name string
+		if v, ok := m["name"]; ok {
+			name = v.(string)
+		}
+
 		if ok {
-			childFields = filter(childFields)
+			childFields = filter(childFields, joinPath(parent, name), ecsFields)
 			if arr := childFields.([]interface{}); len(arr) == 0 {
 				delete(m, "fields")
 			} else {
@@ -309,8 +322,18 @@ func filter(root interface{}) interface{} {
 			}
 			newNodes = append(newNodes, node)
 		} else if m["type"].(string) == "date" || m["type"].(string) == "ip" {
+			if name != "@timestamp" {
+				*ecsFields = append(*ecsFields, joinPath(parent, name))
+			}
 			newNodes = append(newNodes, node)
 		}
 	}
 	return newNodes
+}
+
+func joinPath(parent, name string) string {
+	if parent != "" {
+		return strings.Join([]string{parent, name}, ".")
+	}
+	return name
 }
