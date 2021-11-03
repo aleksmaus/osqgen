@@ -98,6 +98,20 @@ func main() {
 }
 
 func loadSchema(schemaFileName string) (tables []Table, err error) {
+	files := strings.Split(schemaFileName, ",")
+
+	for _, fn := range files {
+		var t []Table
+		t, err = loadSchemaFile(fn)
+		if err != nil {
+			return
+		}
+		tables = append(tables, t...)
+	}
+	return
+}
+
+func loadSchemaFile(schemaFileName string) (tables []Table, err error) {
 	f, err := os.Open(schemaFileName)
 	if err != nil {
 		return nil, err
