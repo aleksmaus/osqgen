@@ -335,7 +335,11 @@ func filter(root interface{}, parent string, ecsFields *[]string) interface{} {
 				m["fields"] = childFields
 			}
 			newNodes = append(newNodes, node)
-		} else if m["type"].(string) == "date" || m["type"].(string) == "ip" {
+		} else if m["type"].(string) == "date" ||
+			m["type"].(string) == "ip" ||
+			m["type"].(string) == "long" ||
+			m["type"].(string) == "float" ||
+			m["type"].(string) == "boolean" {
 			if name != "@timestamp" {
 				*ecsFields = append(*ecsFields, joinPath(parent, name))
 			}
