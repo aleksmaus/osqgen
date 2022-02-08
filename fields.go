@@ -71,21 +71,6 @@ func generateFields(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 
 		for _, colName := range sorted {
 			colInfo := columns[colName]
-			// Skip text columns altogether, rely on default
-			// "dynamic_templates": [
-			// 	{
-			// 	  "strings_as_keyword": {
-			// 		"match_mapping_type": "string",
-			// 		"mapping": {
-			// 		  "ignore_above": 1024,
-			// 		  "type": "keyword"
-			// 		}
-			// 	  }
-			// 	}
-			// ]
-			if colInfo.Column.Type == "text" {
-				continue
-			}
 			field := Field{
 				Name:        colName,
 				Description: colInfo.Column.Description,
