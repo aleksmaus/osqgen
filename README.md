@@ -5,13 +5,13 @@ Osquery helper tool for Elasticsearch
 #### Generate fields for integration package
 
 ```
-osqgen --schema "./schema/osquery_schema_4.7.0.json" fields > osquery.yml
+osqgen --schema "./schema/osquery/osquery_schema_5.0.1.json" fields > osquery.yml
 ```
 
 #### Generate fields for readme for integration package
 
 ```
-osqgen --schema "./schema/osquery_schema_4.7.0.json" readme > readme.txt
+osqgen --schema "./schema/osquery/osquery_schema_5.0.1.json" readme > readme.txt
 ```
 
 #### Generate ECS fields for integration package

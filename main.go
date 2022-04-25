@@ -253,28 +253,26 @@ func generateReadme(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 
 			descriptions := strings.Split(colInfo.Column.Description, "\n")
 			for i, description := range descriptions {
-				b.WriteString(`| `)
 				if i == 0 {
-					b.WriteString(`**`)
+					b.WriteString(`*`)
 					b.WriteString(colName)
-					b.WriteString(`**`)
+					b.WriteString(`* - `)
+					b.WriteString(strings.Join(types, ", "))
+					b.WriteString("\n\n")
 				}
-				b.WriteString(` | `)
 				pos := strings.Index(description, " - ")
 				if pos != -1 {
-					b.WriteString(`**`)
+					b.WriteString(`* _`)
 					b.WriteString(description[:pos])
-					b.WriteString(`** - `)
+					b.WriteString(`_ - `)
 					b.WriteString(description[pos+len(" - "):])
 				} else {
 					b.WriteString(description)
 				}
-				b.WriteString(` | `)
-				if i == 0 {
-					b.WriteString(strings.Join(types, ", "))
+				if i == len(descriptions)-1 {
+					b.WriteString("\n")
 				}
-				b.WriteString(" |\n")
-
+				b.WriteString("\n")
 			}
 		}
 	}
@@ -304,7 +302,7 @@ func execECSCommand() error {
 	if len(ecsFields) > 0 {
 		fmt.Println(`# This file is generated with osqgen (https://github.com/aleksmaus/osqgen) tool from the official ECS fields yml`)
 		fmt.Println(`# To regenerate use:`)
-		fmt.Println(`# osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml`)
+		fmt.Printf("# osqgen --schema \"%s\" ecs > ecs.yml\n", schemaFileName)
 		for _, ecsField := range ecsFields {
 			fmt.Println("- external: ecs")
 			fmt.Println("  name:", ecsField)
