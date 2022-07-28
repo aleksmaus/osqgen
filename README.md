@@ -1,23 +1,28 @@
 # osqgen
 Osquery helper tool for Elasticsearch 
 
+#### Generate schema file from osquery repository
+
+```
+python tools/codegen/genwebsitejson.py --specs=./specs > schema.json
+```
 
 #### Generate fields for integration package
 
 ```
-osqgen --schema "./schema/osquery/osquery_schema_5.0.1.json" fields > osquery.yml
+./osqgen --schema "./schema/osquery/osquery_schema_5.2.2.json" fields > osquery.yml
 ```
 
 #### Generate fields for readme for integration package
 
 ```
-osqgen --schema "./schema/osquery/osquery_schema_5.0.1.json" readme > readme.txt
+./osqgen --schema "./schema/osquery/osquery_schema_5.2.2.json" readme > readme.txt
 ```
 
 #### Generate ECS fields for integration package
 
 ```
-osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml
+./osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml
 ```
 
 Currently this extracts out all the ```date``` and ```ip``` fields and writes them out in the integration package fields format.
