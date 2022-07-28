@@ -1,0 +1,6 @@
+network.iana_number
+network.type
+process.elf.sections
+process.parent.elf.sections
+threat.enrichments
+threat.enrichments.indicator.file.elf.sections

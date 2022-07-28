@@ -1,6 +1,8 @@
 package main
 
 import (
+	_ "embed"
+
 	"encoding/json"
 	"errors"
 	"flag"
@@ -12,6 +14,9 @@ import (
 
 	"gopkg.in/yaml.v2"
 )
+
+//go:embed schema/ecs/keep_fields.txt
+var keepFieldsContent string
 
 type Column struct {
 	Name        string `json:"name"`
@@ -281,6 +286,18 @@ func generateReadme(w io.Writer, columns map[string]ColumnInfo, dupColumnsMap ma
 }
 
 func execECSCommand() error {
+	// process keep_fields.txt
+	fields := strings.Split(keepFieldsContent, "\n")
+
+	keepFields := make(map[string]struct{})
+
+	for _, f := range fields {
+		field := strings.TrimSpace(f)
+		if field != "" {
+			keepFields[field] = struct{}{}
+		}
+	}
+
 	f, err := os.Open(schemaFileName)
 	if err != nil {
 		return err
@@ -297,7 +314,7 @@ func execECSCommand() error {
 
 	var ecsFields []string
 
-	root = filter(root, "", &ecsFields)
+	root = filter(root, "", keepFields, &ecsFields)
 
 	if len(ecsFields) > 0 {
 		fmt.Println(`# This file is generated with osqgen (https://github.com/aleksmaus/osqgen) tool from the official ECS fields yml`)
@@ -312,7 +329,7 @@ func execECSCommand() error {
 	return nil
 }
 
-func filter(root interface{}, parent string, ecsFields *[]string) interface{} {
+func filter(root interface{}, parent string, keepFields map[string]struct{}, ecsFields *[]string) interface{} {
 	nodes := root.([]interface{})
 
 	var newNodes []interface{}
@@ -326,22 +343,27 @@ func filter(root interface{}, parent string, ecsFields *[]string) interface{} {
 		}
 
 		if ok {
-			childFields = filter(childFields, joinPath(parent, name), ecsFields)
+			childFields = filter(childFields, joinPath(parent, name), keepFields, ecsFields)
 			if arr := childFields.([]interface{}); len(arr) == 0 {
 				delete(m, "fields")
 			} else {
 				m["fields"] = childFields
 			}
 			newNodes = append(newNodes, node)
-		} else if m["type"].(string) == "date" ||
-			m["type"].(string) == "ip" ||
-			m["type"].(string) == "long" ||
-			m["type"].(string) == "float" ||
-			m["type"].(string) == "boolean" {
-			if name != "@timestamp" {
-				*ecsFields = append(*ecsFields, joinPath(parent, name))
+		} else {
+			fieldName := joinPath(parent, name)
+			_, keep := keepFields[fieldName]
+
+			if keep || m["type"].(string) == "date" ||
+				m["type"].(string) == "ip" ||
+				m["type"].(string) == "long" ||
+				m["type"].(string) == "float" ||
+				m["type"].(string) == "boolean" {
+				if name != "@timestamp" {
+					*ecsFields = append(*ecsFields, fieldName)
+				}
+				newNodes = append(newNodes, node)
 			}
-			newNodes = append(newNodes, node)
 		}
 	}
 	return newNodes

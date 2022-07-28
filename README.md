@@ -25,7 +25,10 @@ python tools/codegen/genwebsitejson.py --specs=./specs > schema.json
 ./osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml
 ```
 
-Currently this extracts out all the ```date``` and ```ip``` fields and writes them out in the integration package fields format.
+Currently this extracts out all the ```date```, ```ip```, ```long```, ```float```, ```boolean``` fields and writes them out in the integration package fields format.
+The file ```schema/ecs/keep_fields.txt``` contains the list of fields that needs to be explicitly kept for ECS mapping file, without this the fields can be automapped incorrectly.
+Add more fields there as needed.
+
 For example:
 ```
 - external: ecs
