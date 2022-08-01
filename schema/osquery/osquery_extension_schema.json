@@ -1,494 +1,494 @@
 [
   {
-    "name":"host_groups",
-    "description":"Host system groups derived from /hostfs mount to the container.",
-    "url":"https://github.com/osquery/osquery/blob/master/specs/groups.table",
-    "platforms":[
+    "name": "host_groups",
+    "description": "Host system groups derived from /hostfs mount to the container.",
+    "url": "https://github.com/osquery/osquery/blob/master/specs/groups.table",
+    "platforms": [
       "darwin",
       "linux",
       "windows",
       "freebsd"
     ],
-    "evented":false,
-    "cacheable":false,
-    "columns":[
+    "evented": false,
+    "cacheable": false,
+    "columns": [
       {
-        "name":"gid",
-        "description":"Unsigned int64 group ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "gid",
+        "description": "Unsigned int64 group ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"gid_signed",
-        "description":"A signed int64 version of gid",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "gid_signed",
+        "description": "A signed int64 version of gid",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"groupname",
-        "description":"Canonical local group name",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "groupname",
+        "description": "Canonical local group name",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"group_sid",
-        "description":"Unique group ID",
-        "type":"text",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "group_sid",
+        "description": "Unique group ID",
+        "type": "text",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"comment",
-        "description":"Remarks or comments associated with the group",
-        "type":"text",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "comment",
+        "description": "Remarks or comments associated with the group",
+        "type": "text",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"is_hidden",
-        "description":"IsHidden attribute set in OpenDirectory",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "is_hidden",
+        "description": "IsHidden attribute set in OpenDirectory",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"pid_with_namespace",
-        "description":"Pids that contain a namespace",
-        "type":"integer",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "pid_with_namespace",
+        "description": "Pids that contain a namespace",
+        "type": "integer",
+        "hidden": true,
+        "required": false,
+        "index": false
       }
     ]
   },
   {
-    "name":"host_processes",
-    "description":"All running processes on the host system, derived from /hostfs mount to the container.",
-    "url":"https://github.com/osquery/osquery/blob/master/specs/processes.table",
-    "platforms":[
+    "name": "host_processes",
+    "description": "All running processes on the host system, derived from /hostfs mount to the container.",
+    "url": "https://github.com/osquery/osquery/blob/master/specs/processes.table",
+    "platforms": [
       "darwin",
       "linux",
       "windows",
       "freebsd"
     ],
-    "evented":false,
-    "cacheable":true,
-    "columns":[
+    "evented": false,
+    "cacheable": true,
+    "columns": [
       {
-        "name":"pid",
-        "description":"Process (or thread) ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "pid",
+        "description": "Process (or thread) ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"name",
-        "description":"The process path or shorthand argv[0]",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "name",
+        "description": "The process path or shorthand argv[0]",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"path",
-        "description":"Path to executed binary",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "path",
+        "description": "Path to executed binary",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"cmdline",
-        "description":"Complete argv",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "cmdline",
+        "description": "Complete argv",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"state",
-        "description":"Process state",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "state",
+        "description": "Process state",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"cwd",
-        "description":"Process current working directory",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "cwd",
+        "description": "Process current working directory",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"root",
-        "description":"Process virtual root directory",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "root",
+        "description": "Process virtual root directory",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"uid",
-        "description":"Unsigned user ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "uid",
+        "description": "Unsigned user ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"gid",
-        "description":"Unsigned group ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "gid",
+        "description": "Unsigned group ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"euid",
-        "description":"Unsigned effective user ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "euid",
+        "description": "Unsigned effective user ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"egid",
-        "description":"Unsigned effective group ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "egid",
+        "description": "Unsigned effective group ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"suid",
-        "description":"Unsigned saved user ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "suid",
+        "description": "Unsigned saved user ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"sgid",
-        "description":"Unsigned saved group ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "sgid",
+        "description": "Unsigned saved group ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"on_disk",
-        "description":"The process path exists yes=1, no=0, unknown=-1",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "on_disk",
+        "description": "The process path exists yes=1, no=0, unknown=-1",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"wired_size",
-        "description":"Bytes of unpageable memory used by process",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "wired_size",
+        "description": "Bytes of unpageable memory used by process",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"resident_size",
-        "description":"Bytes of private memory used by process",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "resident_size",
+        "description": "Bytes of private memory used by process",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"total_size",
-        "description":"Total virtual memory size",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "total_size",
+        "description": "Total virtual memory size",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"user_time",
-        "description":"CPU time in milliseconds spent in user space",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "user_time",
+        "description": "CPU time in milliseconds spent in user space",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"system_time",
-        "description":"CPU time in milliseconds spent in kernel space",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "system_time",
+        "description": "CPU time in milliseconds spent in kernel space",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"disk_bytes_read",
-        "description":"Bytes read from disk",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "disk_bytes_read",
+        "description": "Bytes read from disk",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"disk_bytes_written",
-        "description":"Bytes written to disk",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "disk_bytes_written",
+        "description": "Bytes written to disk",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"start_time",
-        "description":"Process start time in seconds since Epoch, in case of error -1",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "start_time",
+        "description": "Process start time in seconds since Epoch, in case of error -1",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"parent",
-        "description":"Process parent's PID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "parent",
+        "description": "Process parent's PID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"pgroup",
-        "description":"Process group",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "pgroup",
+        "description": "Process group",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"threads",
-        "description":"Number of threads used by process",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "threads",
+        "description": "Number of threads used by process",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"nice",
-        "description":"Process nice level (-20 to 20, default 0)",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "nice",
+        "description": "Process nice level (-20 to 20, default 0)",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"elevated_token",
-        "description":"Process uses elevated token yes=1, no=0",
-        "type":"integer",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "elevated_token",
+        "description": "Process uses elevated token yes=1, no=0",
+        "type": "integer",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"secure_process",
-        "description":"Process is secure (IUM) yes=1, no=0",
-        "type":"integer",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "secure_process",
+        "description": "Process is secure (IUM) yes=1, no=0",
+        "type": "integer",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"protection_type",
-        "description":"The protection type of the process",
-        "type":"text",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "protection_type",
+        "description": "The protection type of the process",
+        "type": "text",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"virtual_process",
-        "description":"Process is virtual (e.g. System, Registry, vmmem) yes=1, no=0",
-        "type":"integer",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "virtual_process",
+        "description": "Process is virtual (e.g. System, Registry, vmmem) yes=1, no=0",
+        "type": "integer",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"elapsed_time",
-        "description":"Elapsed time in seconds this process has been running.",
-        "type":"bigint",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "elapsed_time",
+        "description": "Elapsed time in seconds this process has been running.",
+        "type": "bigint",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"handle_count",
-        "description":"Total number of handles that the process has open. This number is the sum of the handles currently opened by each thread in the process.",
-        "type":"bigint",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "handle_count",
+        "description": "Total number of handles that the process has open. This number is the sum of the handles currently opened by each thread in the process.",
+        "type": "bigint",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"percent_processor_time",
-        "description":"Returns elapsed time that all of the threads of this process used the processor to execute instructions in 100 nanoseconds ticks.",
-        "type":"bigint",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "percent_processor_time",
+        "description": "Returns elapsed time that all of the threads of this process used the processor to execute instructions in 100 nanoseconds ticks.",
+        "type": "bigint",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"upid",
-        "description":"A 64bit pid that is never reused. Returns -1 if we couldn't gather them from the system.",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "upid",
+        "description": "A 64bit pid that is never reused. Returns -1 if we couldn't gather them from the system.",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"uppid",
-        "description":"The 64bit parent pid that is never reused. Returns -1 if we couldn't gather them from the system.",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "uppid",
+        "description": "The 64bit parent pid that is never reused. Returns -1 if we couldn't gather them from the system.",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"cpu_type",
-        "description":"Indicates the specific processor designed for installation.",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "cpu_type",
+        "description": "Indicates the specific processor designed for installation.",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"cpu_subtype",
-        "description":"Indicates the specific processor on which an entry may be used.",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "cpu_subtype",
+        "description": "Indicates the specific processor on which an entry may be used.",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       }
     ]
   },
   {
-    "name":"host_users",
-    "description":"Host user accounts derived from /hostfs mount to the container.",
-    "url":"https://github.com/osquery/osquery/blob/master/specs/users.table",
-    "platforms":[
+    "name": "host_users",
+    "description": "Host user accounts derived from /hostfs mount to the container.",
+    "url": "https://github.com/osquery/osquery/blob/master/specs/users.table",
+    "platforms": [
       "darwin",
       "linux",
       "windows",
       "freebsd"
     ],
-    "evented":false,
-    "cacheable":false,
-    "columns":[
+    "evented": false,
+    "cacheable": false,
+    "columns": [
       {
-        "name":"uid",
-        "description":"User ID",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "uid",
+        "description": "User ID",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"gid",
-        "description":"Group ID (unsigned)",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "gid",
+        "description": "Group ID (unsigned)",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"uid_signed",
-        "description":"User ID as int64 signed (Apple)",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "uid_signed",
+        "description": "User ID as int64 signed (Apple)",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"gid_signed",
-        "description":"Default group ID as int64 signed (Apple)",
-        "type":"bigint",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "gid_signed",
+        "description": "Default group ID as int64 signed (Apple)",
+        "type": "bigint",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"username",
-        "description":"Username",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "username",
+        "description": "Username",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"description",
-        "description":"Optional user description",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "description",
+        "description": "Optional user description",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"directory",
-        "description":"User's home directory",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "directory",
+        "description": "User's home directory",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"shell",
-        "description":"User's configured default shell",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "shell",
+        "description": "User's configured default shell",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"uuid",
-        "description":"User's UUID (Apple) or SID (Windows)",
-        "type":"text",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "uuid",
+        "description": "User's UUID (Apple) or SID (Windows)",
+        "type": "text",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"type",
-        "description":"Whether the account is roaming (domain), local, or a system profile",
-        "type":"text",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "type",
+        "description": "Whether the account is roaming (domain), local, or a system profile",
+        "type": "text",
+        "hidden": true,
+        "required": false,
+        "index": false
       },
       {
-        "name":"is_hidden",
-        "description":"IsHidden attribute set in OpenDirectory",
-        "type":"integer",
-        "hidden":false,
-        "required":false,
-        "index":false
+        "name": "is_hidden",
+        "description": "IsHidden attribute set in OpenDirectory",
+        "type": "integer",
+        "hidden": false,
+        "required": false,
+        "index": false
       },
       {
-        "name":"pid_with_namespace",
-        "description":"Pids that contain a namespace",
-        "type":"integer",
-        "hidden":true,
-        "required":false,
-        "index":false
+        "name": "pid_with_namespace",
+        "description": "Pids that contain a namespace",
+        "type": "integer",
+        "hidden": true,
+        "required": false,
+        "index": false
       }
     ]
   }

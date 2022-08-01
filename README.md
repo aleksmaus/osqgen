@@ -10,13 +10,13 @@ python tools/codegen/genwebsitejson.py --specs=./specs > schema.json
 #### Generate fields for integration package
 
 ```
-./osqgen --schema "./schema/osquery/osquery_schema_5.2.2.json" fields > osquery.yml
+./osqgen --schema "./schema/osquery/osquery_schema_5.4.0.json" fields > osquery.yml
 ```
 
 #### Generate fields for readme for integration package
 
 ```
-./osqgen --schema "./schema/osquery/osquery_schema_5.2.2.json" readme > readme.txt
+./osqgen --schema "./schema/osquery/osquery_schema_5.4.0.json" readme > readme.txt
 ```
 
 #### Generate ECS fields for integration package
