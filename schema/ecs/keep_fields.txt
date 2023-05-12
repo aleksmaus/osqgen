@@ -1,6 +1,11 @@
+file.elf.sections
 network.iana_number
 network.type
 process.elf.sections
 process.parent.elf.sections
 threat.enrichments
 threat.enrichments.indicator.file.elf.sections
+threat.indicator.file.elf.sections
+user.id
+user.group.id
+group.id
