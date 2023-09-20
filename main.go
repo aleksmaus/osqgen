@@ -329,6 +329,16 @@ func execECSCommand() error {
 	return nil
 }
 
+var excludeFromTopLevel = []string{
+	"as",
+	"code_signature",
+	"elf",
+	"macho",
+	"pe",
+	"risk",
+	"x509",
+}
+
 func filter(root interface{}, parent string, keepFields map[string]struct{}, ecsFields *[]string) interface{} {
 	nodes := root.([]interface{})
 
@@ -342,6 +352,11 @@ func filter(root interface{}, parent string, keepFields map[string]struct{}, ecs
 			name = v.(string)
 		}
 
+		// Exclude the known top level
+		if parent == "" && contains[string](excludeFromTopLevel, name) {
+			continue
+		}
+
 		if ok {
 			childFields = filter(childFields, joinPath(parent, name), keepFields, ecsFields)
 			if arr := childFields.([]interface{}); len(arr) == 0 {
@@ -352,6 +367,7 @@ func filter(root interface{}, parent string, keepFields map[string]struct{}, ecs
 			newNodes = append(newNodes, node)
 		} else {
 			fieldName := joinPath(parent, name)
+
 			_, keep := keepFields[fieldName]
 
 			if keep || m["type"].(string) == "date" ||
@@ -374,4 +390,13 @@ func joinPath(parent, name string) string {
 		return strings.Join([]string{parent, name}, ".")
 	}
 	return name
+}
+
+func contains[T comparable](arr []T, val T) bool {
+	for _, v := range arr {
+		if v == val {
+			return true
+		}
+	}
+	return false
 }

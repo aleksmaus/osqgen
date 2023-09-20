@@ -3,4 +3,6 @@
 
 osquery.yml
 ecs.yml
+readme.txt
+schema.json
 osqgen

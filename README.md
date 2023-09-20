@@ -22,7 +22,7 @@ python tools/codegen/genwebsitejson.py --specs=./specs > schema.json
 #### Generate ECS fields for integration package
 
 ```
-./osqgen --schema "./schema/ecs/fields.ecs_1.12.yml" ecs > ecs.yml
+./osqgen --schema "./schema/ecs/fields.ecs_8.10.0.yml" ecs > ecs.yml
 ```
 
 Currently this extracts out all the ```date```, ```ip```, ```long```, ```float```, ```boolean``` fields and writes them out in the integration package fields format.
