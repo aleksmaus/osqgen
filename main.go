@@ -374,7 +374,8 @@ func filter(root interface{}, parent string, keepFields map[string]struct{}, ecs
 				m["type"].(string) == "ip" ||
 				m["type"].(string) == "long" ||
 				m["type"].(string) == "float" ||
-				m["type"].(string) == "boolean" {
+				m["type"].(string) == "boolean" { //||
+				//m["type"].(string) == "nested"
 				if name != "@timestamp" {
 					*ecsFields = append(*ecsFields, fieldName)
 				}
